@@ -1,10 +1,22 @@
-import {Resolver,Query} from '@nestjs/graphql';
+import {Resolver,Query,Args, Mutation} from '@nestjs/graphql';
+import { Restaurant } from './entities/restaurants.entity';
+import { CreateRestaurantDto } from './dtos/create-restaurant.dto';
+import { RestaurantService } from './restaurants.service';
 
 
-@Resolver()
+
+@Resolver(of => Restaurant)
 export class RestaurantsResolver{
-    @Query(returns => Boolean)
-    isPizzaGood():Boolean{
+    constructor(private readonly restaurantService:RestaurantService){}
+
+    @Query(returns => [Restaurant])
+    restaurants() :Promise<Restaurant[]>{
+        return this.restaurantService.getAll();
+    }
+
+    @Mutation(returns=>Boolean)
+    createRestaurant(@Args()createRestaurantDto: CreateRestaurantDto):boolean{
         return true;
     }
+
 }
