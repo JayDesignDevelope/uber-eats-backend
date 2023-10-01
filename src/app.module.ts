@@ -21,6 +21,7 @@ import { Restaurant } from './restaurants/entities/restaurants.entity';
         DB_PASSWORD:Joi.string().required(),
         DB_NAME:Joi.string().required(),
 
+
       })
     }),
     TypeOrmModule.forRoot({
@@ -30,9 +31,10 @@ import { Restaurant } from './restaurants/entities/restaurants.entity';
       username:process.env.DB_USERNAME,
       password:process.env.DB_PASSWORD,
       database:process.env.DB_NAME,
-      synchronize:process.env.NODE_ENV!=="prod",
+      synchronize:true,
       logging:true,
-      entities:[Restaurant]
+      entities:[Restaurant],
+      ssl:true
     }),
     GraphQLModule.forRoot({
     autoSchemaFile:true
